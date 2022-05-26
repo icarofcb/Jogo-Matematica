@@ -3,8 +3,8 @@
  *
  *			 dd/mm/yyyy
  *  Created: 05/24/2022 9:22:18 AM
- *  Author: Ícaro Fernando
- *	LinkedIn : https://www.linkedin.com/in/ícaro-fernando-46139919b/
+ *  Author: ï¿½caro Fernando
+ *	LinkedIn : https://www.linkedin.com/in/ï¿½caro-fernando-46139919b/
  *  GitHub   : https://github.com/icarofcb
  *
  */ 
@@ -54,12 +54,12 @@
 #define invert_bit(reg,bit) (reg ^= (1<<bit))   // invert o bit "PORTx,PORTxn"
 
 //===================// Function prototyping //===================//
-void readKeyboard();
-void store(char value);
-void startGame();
-void gameRun();
-void clearNumbers(char player);
-void menu();
+void readKeyboard(); 			//Leitura de teclado
+void store(char value);			//Salva o digito do teclado
+void startGame();				//Rotina antes do jogo comeÃ§ar
+void gameRun();					//Rotina de jogo rodando
+void clearNumbers(char player); //Limpeza dos valores para um novo jogo
+void menu();                    //Refresh - Atualiza a senha e limpa o Menu
 
 
 //===================// Variable Mapping //===================//
@@ -80,7 +80,7 @@ char idRespostaC[] = "t4";
 char idCompB[] = "t9";
 char idCompC[] = "t10";
 
-volatile char algarismo  = 0x00;                  //variável para armazenar o número pressionado no teclado
+volatile char algarismo  = 0x00;                  //variï¿½vel para armazenar o nï¿½mero pressionado no teclado
 volatile char numero     = 0x00;
 static volatile char digito  = 0;
 
@@ -167,7 +167,7 @@ int main(void)
 
 void readKeyboard()
 {
-	static char control  = 0x01;                  //variável de controle de teclado
+	static char control  = 0x01;                  //variï¿½vel de controle de teclado
 	static char rowA_flag1 = 0x00,
 				rowB_flag1 = 0x00,
 				rowC_flag1 = 0x00,
@@ -425,7 +425,7 @@ void menu()
 	char msg2[] = "Senha C";
 	char msg3[] = "t7.pw=1";
 	char msg4[] = "t2.pw=1";
-	char endLine1[] = "ÿÿÿ";
+	char endLine1[] = "ï¿½ï¿½ï¿½";
 	char clear[] = " ";
 	
 	Nextion_sendString(idCompB,clear);
