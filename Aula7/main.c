@@ -61,7 +61,7 @@ void menu();
 
 //===================// Variable Mapping //===================//
 const uint16_t T1_init = 0;       // zero for the start point of the timer;
-const uint16_t T1_comp = 750;    // compare value for timer 1 
+const uint16_t T1_comp = 1000;    // compare value for timer 1 
 
 volatile static int16_t analogvalue = 0;
 
@@ -378,28 +378,32 @@ void readKeyboard()
 void store(char value)                   
 {   
 	TIMSK1 = 0;                          
-	static char digito  = 0;
+	static volatile char digito  = 0;
 	
 	algarismo = value;
 	
-	if(!digito)
+	if(gameMode)
 	{
-		if(value<10) numero = (value*10);
-		digito = 1;
-		
-	}else{
-		if(value<10) numero += algarismo;
-		digito  = 0;
-	}
+		if(!digito)
+		{
+			if(value<10)
+			{
+				numero = (value*10);
+				digito = 1;
+			}
+		}else{
+			if(value<10)
+			{
+				numero += algarismo;
+				digito  = 0;
+			}
+		}
 	
-	if(gameMode!=0x00)
-	{
 		if(!player)
 		{
 			Nextion_sendInt(idRespostaB,numero);	
 		}else Nextion_sendInt(idRespostaC,numero);
 	}
-	
 	_delay_ms(250);
 	                       
 	

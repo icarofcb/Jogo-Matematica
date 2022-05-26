@@ -493,12 +493,12 @@ END GROUP
  .debug_abbrev  0x0000000000000785       0xd8 Nextion.o
  .debug_abbrev  0x000000000000085d      0x11d uart_hal.o
 
-.debug_line     0x0000000000000000      0xd7d
+.debug_line     0x0000000000000000      0xd71
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x0000000000000000      0x137 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
- .debug_line    0x0000000000000137      0xa13 main.o
- .debug_line    0x0000000000000b4a       0xf4 Nextion.o
- .debug_line    0x0000000000000c3e      0x13f uart_hal.o
+ .debug_line    0x0000000000000137      0xa07 main.o
+ .debug_line    0x0000000000000b3e       0xf4 Nextion.o
+ .debug_line    0x0000000000000c32      0x13f uart_hal.o
 
 .debug_frame    0x0000000000000000      0x264
  *(.debug_frame)

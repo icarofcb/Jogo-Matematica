@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   5 .debug_abbrev 0000097a  00000000  00000000  00003bbe  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_line   00000d7d  00000000  00000000  00004538  2**0
+  6 .debug_line   00000d71  00000000  00000000  00004538  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_frame  00000264  00000000  00000000  000052b8  2**2
+  7 .debug_frame  00000264  00000000  00000000  000052ac  2**2
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_str    00000258  00000000  00000000  0000551c  2**0
+  8 .debug_str    00000258  00000000  00000000  00005510  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_loc    00000db2  00000000  00000000  00005774  2**0
+  9 .debug_loc    00000db2  00000000  00000000  00005768  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 00000098  00000000  00000000  00006526  2**0
+ 10 .debug_ranges 00000098  00000000  00000000  0000651a  2**0
                   CONTENTS, READONLY, DEBUGGING
  11 .text         00000004  000014b2  000014b2  00001606  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
- 12 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000065c0  2**2
+ 12 .note.gnu.avr.deviceinfo 00000040  00000000  00000000  000065b4  2**2
                   CONTENTS, READONLY, DEBUGGING
  13 .text.store   00000088  000010e2  000010e2  00001236  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
@@ -265,7 +265,7 @@ Disassembly of section .text:
 Disassembly of section .text:
 
 000014b2 <__bad_interrupt>:
-    14b2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+    14b2:	0c 94 00 00 	jmp	0	; 0x0 <__TEXT_REGION_ORIGIN__>
 
 Disassembly of section .text.store:
 
@@ -277,47 +277,52 @@ void store(char value)
 {   
 	TIMSK1 = 0;                          
     10e2:	10 92 6f 00 	sts	0x006F, r1	; 0x80006f <__TEXT_REGION_LENGTH__+0x7f806f>
-	static char digito  = 0;
+	static volatile char digito  = 0;
 	
 	algarismo = value;
     10e6:	80 93 37 01 	sts	0x0137, r24	; 0x800137 <algarismo>
 	
-	if(!digito)
-    10ea:	90 91 20 01 	lds	r25, 0x0120	; 0x800120 <digito.2314>
-    10ee:	91 11       	cpse	r25, r1
-    10f0:	0d c0       	rjmp	.+26     	; 0x110c <store+0x2a>
+	if(gameMode)
+    10ea:	90 91 33 01 	lds	r25, 0x0133	; 0x800133 <gameMode>
+    10ee:	99 23       	and	r25, r25
+    10f0:	79 f1       	breq	.+94     	; 0x1150 <store+0x6e>
 	{
-		if(value<10) numero = (value*10);
-    10f2:	8a 30       	cpi	r24, 0x0A	; 10
-    10f4:	38 f4       	brcc	.+14     	; 0x1104 <store+0x22>
-    10f6:	88 0f       	add	r24, r24
-    10f8:	98 2f       	mov	r25, r24
-    10fa:	99 0f       	add	r25, r25
-    10fc:	99 0f       	add	r25, r25
-    10fe:	89 0f       	add	r24, r25
-    1100:	80 93 36 01 	sts	0x0136, r24	; 0x800136 <numero>
-		digito = 1;
-    1104:	81 e0       	ldi	r24, 0x01	; 1
-    1106:	80 93 20 01 	sts	0x0120, r24	; 0x800120 <digito.2314>
-    110a:	0b c0       	rjmp	.+22     	; 0x1122 <store+0x40>
-		
-	}else{
-		if(value<10) numero += algarismo;
-    110c:	8a 30       	cpi	r24, 0x0A	; 10
-    110e:	38 f4       	brcc	.+14     	; 0x111e <store+0x3c>
-    1110:	90 91 37 01 	lds	r25, 0x0137	; 0x800137 <algarismo>
-    1114:	80 91 36 01 	lds	r24, 0x0136	; 0x800136 <numero>
-    1118:	89 0f       	add	r24, r25
-    111a:	80 93 36 01 	sts	0x0136, r24	; 0x800136 <numero>
-		digito  = 0;
-    111e:	10 92 20 01 	sts	0x0120, r1	; 0x800120 <digito.2314>
-	}
+		if(!digito)
+    10f2:	90 91 20 01 	lds	r25, 0x0120	; 0x800120 <digito.2314>
+    10f6:	91 11       	cpse	r25, r1
+    10f8:	0d c0       	rjmp	.+26     	; 0x1114 <store+0x32>
+		{
+			if(value<10)
+    10fa:	8a 30       	cpi	r24, 0x0A	; 10
+    10fc:	b0 f4       	brcc	.+44     	; 0x112a <store+0x48>
+			{
+				numero = (value*10);
+    10fe:	88 0f       	add	r24, r24
+    1100:	98 2f       	mov	r25, r24
+    1102:	99 0f       	add	r25, r25
+    1104:	99 0f       	add	r25, r25
+    1106:	89 0f       	add	r24, r25
+    1108:	80 93 36 01 	sts	0x0136, r24	; 0x800136 <numero>
+				digito = 1;
+    110c:	81 e0       	ldi	r24, 0x01	; 1
+    110e:	80 93 20 01 	sts	0x0120, r24	; 0x800120 <digito.2314>
+    1112:	0b c0       	rjmp	.+22     	; 0x112a <store+0x48>
+			}
+		}else{
+			if(value<10)
+    1114:	8a 30       	cpi	r24, 0x0A	; 10
+    1116:	48 f4       	brcc	.+18     	; 0x112a <store+0x48>
+			{
+				numero += algarismo;
+    1118:	90 91 37 01 	lds	r25, 0x0137	; 0x800137 <algarismo>
+    111c:	80 91 36 01 	lds	r24, 0x0136	; 0x800136 <numero>
+    1120:	89 0f       	add	r24, r25
+    1122:	80 93 36 01 	sts	0x0136, r24	; 0x800136 <numero>
+				digito  = 0;
+    1126:	10 92 20 01 	sts	0x0120, r1	; 0x800120 <digito.2314>
+			}
+		}
 	
-	if(gameMode!=0x00)
-    1122:	80 91 33 01 	lds	r24, 0x0133	; 0x800133 <gameMode>
-    1126:	88 23       	and	r24, r24
-    1128:	99 f0       	breq	.+38     	; 0x1150 <store+0x6e>
-	{
 		if(!player)
     112a:	80 91 32 01 	lds	r24, 0x0132	; 0x800132 <player>
     112e:	81 11       	cpse	r24, r1
@@ -352,7 +357,6 @@ void store(char value)
     115e:	00 c0       	rjmp	.+0      	; 0x1160 <store+0x7e>
     1160:	00 00       	nop
 	}
-	
 	_delay_ms(250);
 	                       
 	
@@ -1894,8 +1898,8 @@ int main(void)
     1090:	10 92 85 00 	sts	0x0085, r1	; 0x800085 <__TEXT_REGION_LENGTH__+0x7f8085>
     1094:	10 92 84 00 	sts	0x0084, r1	; 0x800084 <__TEXT_REGION_LENGTH__+0x7f8084>
  	    OCR1A = T1_comp;
-    1098:	8e ee       	ldi	r24, 0xEE	; 238
-    109a:	92 e0       	ldi	r25, 0x02	; 2
+    1098:	88 ee       	ldi	r24, 0xE8	; 232
+    109a:	93 e0       	ldi	r25, 0x03	; 3
     109c:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
     10a0:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
  
