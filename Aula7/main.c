@@ -80,7 +80,7 @@ char idRespostaC[] = "t4";
 char idCompB[] = "t9";
 char idCompC[] = "t10";
 
-volatile char algarismo  = 0x00;                  //variï¿½vel para armazenar o nï¿½mero pressionado no teclado
+volatile char algarismo  = 0x00;                  //variável para armazenar o número pressionado no teclado
 volatile char numero     = 0x00;
 static volatile char digito  = 0;
 
@@ -108,8 +108,6 @@ ISR(TIMER1_COMPA_vect)
 //===================// Main Code //===================//
 int main(void)
 {		
-		
-		
  	    //========== GPIO =========//
  	    set_bit(DDRB,D13);  
 		set_bit(DDRC,buzzer);
@@ -167,7 +165,7 @@ int main(void)
 
 void readKeyboard()
 {
-	static char control  = 0x01;                  //variï¿½vel de controle de teclado
+	static char control  = 0x01;                  //variável de controle de teclado
 	static char rowA_flag1 = 0x00,
 				rowB_flag1 = 0x00,
 				rowC_flag1 = 0x00,
@@ -528,7 +526,6 @@ void gameRun()
 		{	
 			TIMSK1 = 0; 
 			_delay_ms(50);
-			//clearNumbers(player);
 			
 			if(numero<senhaB)       {Nextion_sendString(idCompB,menor); player = 1; clearNumbers(player);}
 			else if(numero>senhaB)  {Nextion_sendString(idCompB,maior); player = 1; clearNumbers(player);} 
@@ -537,15 +534,13 @@ void gameRun()
 			digito = 0;
 			TIMSK1 = (1 << OCIE1A);
 		}
-		//Nextion_sendInt(idRespostaB,numero);
-			
+					
 	}else{ //C
 		
 		if(algarismo == 16)
 		{
 			TIMSK1 = 0;
 			_delay_ms(50);
-			//clearNumbers(player);
 			
 			if(numero<senhaC)       {Nextion_sendString(idCompC,menor); player = 0; clearNumbers(player);}
 			else if(numero>senhaC)  {Nextion_sendString(idCompC,maior); player = 0; clearNumbers(player);}
@@ -554,7 +549,6 @@ void gameRun()
 			_delay_ms(50);
 			TIMSK1 = (1 << OCIE1A);
 		}
-		//Nextion_sendInt(idRespostaC,numero);
 	}	
 	
 	if(algarismo == 11)
