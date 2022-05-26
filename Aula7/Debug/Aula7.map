@@ -7,11 +7,11 @@ c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-cons
 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_movmemx.o)
                               main.o (__movmemx_qi)
 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strcat_M.o)
-                              main.o (strcat)
+                              Nextion.o (strcat)
 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strcpy_M.o)
-                              main.o (strcpy)
+                              Nextion.o (strcpy)
 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(sprintf.o)
-                              main.o (sprintf)
+                              Nextion.o (sprintf)
 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(vfprintf_std.o)
                               c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(sprintf.o) (vfprintf)
 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strnlen_M.o)
@@ -24,11 +24,6 @@ c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-cons
                               c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(sprintf.o) (__prologue_saves__)
 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_epilogue.o)
                               c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(sprintf.o) (__epilogue_restores__)
-
-Allocating common symbols
-Common symbol       size              file
-
-msg                 0x32              main.o
 
 Discarded input sections
 
@@ -56,15 +51,17 @@ Discarded input sections
  .text          0x0000000000000000        0x0 main.o
  .data          0x0000000000000000        0x0 main.o
  .bss           0x0000000000000000        0x0 main.o
- .data.str_hello
-                0x0000000000000000        0x6 main.o
+ .bss.RespC     0x0000000000000000        0x1 main.o
+ .bss.RespB     0x0000000000000000        0x1 main.o
  .bss.analogvalue
                 0x0000000000000000        0x2 main.o
  .progmemx.data.T1_comp
                 0x0000000000000000        0x2 main.o
  .progmemx.data.T1_init
                 0x0000000000000000        0x2 main.o
- COMMON         0x0000000000000000       0x32 main.o
+ .text          0x0000000000000000        0x0 Nextion.o
+ .data          0x0000000000000000        0x0 Nextion.o
+ .bss           0x0000000000000000        0x0 Nextion.o
  .text          0x0000000000000000        0x0 uart_hal.o
  .data          0x0000000000000000        0x0 uart_hal.o
  .bss           0x0000000000000000        0x0 uart_hal.o
@@ -187,6 +184,7 @@ Address of section .data set to 0x800100
 LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
 LOAD analog_hal.o
 LOAD main.o
+LOAD Nextion.o
 LOAD uart_hal.o
 START GROUP
 LOAD c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libm.a
@@ -297,7 +295,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x0000000000000000       0xca
+.text           0x0000000000000000       0xe8
  *(.vectors)
  .vectors       0x0000000000000000       0x68 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
                 0x0000000000000000                __vector_default
@@ -305,43 +303,44 @@ END GROUP
  *(.vectors)
  *(.progmem.gcc*)
  *(.dinit)
- .dinit         0x0000000000000068        0xe data_init
-                0x0000000000000076                . = ALIGN (0x2)
-                0x0000000000000076                __trampolines_start = .
+ .dinit         0x0000000000000068       0x2b data_init
+                0x0000000000000094                . = ALIGN (0x2)
+ *fill*         0x0000000000000093        0x1 
+                0x0000000000000094                __trampolines_start = .
  *(.trampolines)
- .trampolines   0x0000000000000076        0x0 linker stubs
+ .trampolines   0x0000000000000094        0x0 linker stubs
  *(.trampolines*)
-                0x0000000000000076                __trampolines_end = .
+                0x0000000000000094                __trampolines_end = .
  *libprintf_flt.a:*(.progmem.data)
  *libc.a:*(.progmem.data)
-                0x0000000000000076                . = ALIGN (0x2)
+                0x0000000000000094                . = ALIGN (0x2)
  *(.jumptables)
  *(.jumptables*)
  *(.lowtext)
  *(.lowtext*)
-                0x0000000000000076                __ctors_start = .
+                0x0000000000000094                __ctors_start = .
  *(.ctors)
-                0x0000000000000076                __ctors_end = .
-                0x0000000000000076                __dtors_start = .
+                0x0000000000000094                __ctors_end = .
+                0x0000000000000094                __dtors_start = .
  *(.dtors)
-                0x0000000000000076                __dtors_end = .
+                0x0000000000000094                __dtors_end = .
  SORT(*)(.ctors)
  SORT(*)(.dtors)
  *(.init0)
- .init0         0x0000000000000076        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
-                0x0000000000000076                __init
+ .init0         0x0000000000000094        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
+                0x0000000000000094                __init
  *(.init0)
  *(.init1)
  *(.init1)
  *(.init2)
- .init2         0x0000000000000076        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
+ .init2         0x0000000000000094        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
  *(.init2)
  *(.init3)
  *(.init3)
  *(.init4)
- .init4         0x0000000000000082       0x3c c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_copy_data.o)
-                0x0000000000000082                __do_copy_data
-                0x00000000000000b0                __do_clear_bss
+ .init4         0x00000000000000a0       0x3c c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_copy_data.o)
+                0x00000000000000a0                __do_copy_data
+                0x00000000000000ce                __do_clear_bss
  *(.init4)
  *(.init5)
  *(.init5)
@@ -352,13 +351,13 @@ END GROUP
  *(.init8)
  *(.init8)
  *(.init9)
- .init9         0x00000000000000be        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
+ .init9         0x00000000000000dc        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
  *(.init9)
-                0x00000000000000c6                . = ALIGN (0x2)
+                0x00000000000000e4                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000000000000c6        0x0 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_exit.o)
-                0x00000000000000c6                _exit
-                0x00000000000000c6                exit
+ .fini9         0x00000000000000e4        0x0 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_exit.o)
+                0x00000000000000e4                _exit
+                0x00000000000000e4                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -377,11 +376,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000000000000c6        0x4 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_exit.o)
+ .fini0         0x00000000000000e4        0x4 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000000000000ca                _etext = .
+                0x00000000000000e8                _etext = .
 
-.data           0x0000000000800100        0x0 load address 0x00000000000000ca
+.data           0x0000000000800100        0x0 load address 0x00000000000000e8
                 [!provide]                        PROVIDE (__data_start, .)
  *(.gnu.linkonce.d*)
  *(.gnu.linkonce.r*)
@@ -393,8 +392,8 @@ END GROUP
                 [!provide]                        PROVIDE (__bss_start, .)
  *(COMMON)
                 [!provide]                        PROVIDE (__bss_end, .)
-                0x00000000000000ca                __data_load_start = LOADADDR (.data)
-                0x00000000000000ca                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000000000000e8                __data_load_start = LOADADDR (.data)
+                0x00000000000000e8                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x0000000000800100        0x0
                 [!provide]                        PROVIDE (__noinit_start, .)
@@ -443,6 +442,7 @@ END GROUP
  *(.comment)
  .comment       0x0000000000000000       0x2f main.o
                                          0x30 (size before relaxing)
+ .comment       0x000000000000002f       0x30 Nextion.o
  .comment       0x000000000000002f       0x30 uart_hal.o
  .comment       0x000000000000002f       0x2c c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strcat_M.o)
                                          0x2d (size before relaxing)
@@ -467,49 +467,57 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x0000000000000000       0x78
+.debug_aranges  0x0000000000000000       0xc8
  *(.debug_aranges)
  .debug_aranges
-                0x0000000000000000       0x38 main.o
+                0x0000000000000000       0x60 main.o
  .debug_aranges
-                0x0000000000000038       0x40 uart_hal.o
+                0x0000000000000060       0x28 Nextion.o
+ .debug_aranges
+                0x0000000000000088       0x40 uart_hal.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x0000000000000000     0x1019
+.debug_info     0x0000000000000000     0x2471
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x0000000000000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
- .debug_info    0x00000000000005f4      0x624 main.o
- .debug_info    0x0000000000000c18      0x401 uart_hal.o
+ .debug_info    0x00000000000005f4     0x1590 main.o
+ .debug_info    0x0000000000001b84      0x4d1 Nextion.o
+ .debug_info    0x0000000000002055      0x41c uart_hal.o
 
-.debug_abbrev   0x0000000000000000      0x7d1
+.debug_abbrev   0x0000000000000000      0x97a
  *(.debug_abbrev)
  .debug_abbrev  0x0000000000000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
- .debug_abbrev  0x00000000000005a2      0x112 main.o
- .debug_abbrev  0x00000000000006b4      0x11d uart_hal.o
+ .debug_abbrev  0x00000000000005a2      0x1e3 main.o
+ .debug_abbrev  0x0000000000000785       0xd8 Nextion.o
+ .debug_abbrev  0x000000000000085d      0x11d uart_hal.o
 
-.debug_line     0x0000000000000000      0x3eb
+.debug_line     0x0000000000000000      0xd7d
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x0000000000000000      0x137 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
- .debug_line    0x0000000000000137      0x175 main.o
- .debug_line    0x00000000000002ac      0x13f uart_hal.o
+ .debug_line    0x0000000000000137      0xa13 main.o
+ .debug_line    0x0000000000000b4a       0xf4 Nextion.o
+ .debug_line    0x0000000000000c3e      0x13f uart_hal.o
 
-.debug_frame    0x0000000000000000      0x190
+.debug_frame    0x0000000000000000      0x264
  *(.debug_frame)
- .debug_frame   0x0000000000000000       0xec main.o
- .debug_frame   0x00000000000000ec       0xa4 uart_hal.o
+ .debug_frame   0x0000000000000000      0x13c main.o
+ .debug_frame   0x000000000000013c       0x84 Nextion.o
+ .debug_frame   0x00000000000001c0       0xa4 uart_hal.o
 
-.debug_str      0x0000000000000000      0x224
+.debug_str      0x0000000000000000      0x258
  *(.debug_str)
  .debug_str     0x0000000000000000      0x208 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
- .debug_str     0x0000000000000208       0x1c main.o
- .debug_str     0x0000000000000224        0x0 uart_hal.o
+ .debug_str     0x0000000000000208       0x3f main.o
+ .debug_str     0x0000000000000247       0x11 Nextion.o
+ .debug_str     0x0000000000000258        0x0 uart_hal.o
 
-.debug_loc      0x0000000000000000      0x423
+.debug_loc      0x0000000000000000      0xdb2
  *(.debug_loc)
- .debug_loc     0x0000000000000000      0x297 main.o
- .debug_loc     0x0000000000000297      0x18c uart_hal.o
+ .debug_loc     0x0000000000000000      0xa5a main.o
+ .debug_loc     0x0000000000000a5a      0x1cc Nextion.o
+ .debug_loc     0x0000000000000c26      0x18c uart_hal.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -529,10 +537,11 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x0000000000000000       0x58
+.debug_ranges   0x0000000000000000       0x98
  *(.debug_ranges)
- .debug_ranges  0x0000000000000000       0x28 main.o
- .debug_ranges  0x0000000000000028       0x30 uart_hal.o
+ .debug_ranges  0x0000000000000000       0x50 main.o
+ .debug_ranges  0x0000000000000050       0x18 Nextion.o
+ .debug_ranges  0x0000000000000068       0x30 uart_hal.o
 
 .debug_macro
  *(.debug_macro)
@@ -545,142 +554,345 @@ LOAD data_init
  .note.gnu.avr.deviceinfo
                 0x0000000000000000       0x40 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
 
-.progmemx.data  0x00000000000000ca        0x9
+.bss.ctrl.2336  0x000000000080011d        0x1
+ .bss.ctrl.2336
+                0x000000000080011d        0x1 main.o
+
+.bss.pC_ready.2333
+                0x000000000080011e        0x1
+ .bss.pC_ready.2333
+                0x000000000080011e        0x1 main.o
+
+.bss.pB_ready.2332
+                0x000000000080011f        0x1
+ .bss.pB_ready.2332
+                0x000000000080011f        0x1 main.o
+
+.bss.digito.2314
+                0x0000000000800120        0x1
+ .bss.digito.2314
+                0x0000000000800120        0x1 main.o
+
+.bss.rowD_flag4.2310
+                0x0000000000800121        0x1
+ .bss.rowD_flag4.2310
+                0x0000000000800121        0x1 main.o
+
+.bss.rowC_flag4.2309
+                0x0000000000800122        0x1
+ .bss.rowC_flag4.2309
+                0x0000000000800122        0x1 main.o
+
+.bss.rowB_flag4.2308
+                0x0000000000800123        0x1
+ .bss.rowB_flag4.2308
+                0x0000000000800123        0x1 main.o
+
+.bss.rowA_flag4.2307
+                0x0000000000800124        0x1
+ .bss.rowA_flag4.2307
+                0x0000000000800124        0x1 main.o
+
+.bss.rowD_flag3.2306
+                0x0000000000800125        0x1
+ .bss.rowD_flag3.2306
+                0x0000000000800125        0x1 main.o
+
+.bss.rowC_flag3.2305
+                0x0000000000800126        0x1
+ .bss.rowC_flag3.2305
+                0x0000000000800126        0x1 main.o
+
+.bss.rowB_flag3.2304
+                0x0000000000800127        0x1
+ .bss.rowB_flag3.2304
+                0x0000000000800127        0x1 main.o
+
+.bss.rowA_flag3.2303
+                0x0000000000800128        0x1
+ .bss.rowA_flag3.2303
+                0x0000000000800128        0x1 main.o
+
+.bss.rowD_flag2.2302
+                0x0000000000800129        0x1
+ .bss.rowD_flag2.2302
+                0x0000000000800129        0x1 main.o
+
+.bss.rowC_flag2.2301
+                0x000000000080012a        0x1
+ .bss.rowC_flag2.2301
+                0x000000000080012a        0x1 main.o
+
+.bss.rowB_flag2.2300
+                0x000000000080012b        0x1
+ .bss.rowB_flag2.2300
+                0x000000000080012b        0x1 main.o
+
+.bss.rowA_flag2.2299
+                0x000000000080012c        0x1
+ .bss.rowA_flag2.2299
+                0x000000000080012c        0x1 main.o
+
+.bss.rowD_flag1.2298
+                0x000000000080012d        0x1
+ .bss.rowD_flag1.2298
+                0x000000000080012d        0x1 main.o
+
+.bss.rowC_flag1.2297
+                0x000000000080012e        0x1
+ .bss.rowC_flag1.2297
+                0x000000000080012e        0x1 main.o
+
+.bss.rowB_flag1.2296
+                0x000000000080012f        0x1
+ .bss.rowB_flag1.2296
+                0x000000000080012f        0x1 main.o
+
+.bss.rowA_flag1.2295
+                0x0000000000800130        0x1
+ .bss.rowA_flag1.2295
+                0x0000000000800130        0x1 main.o
+
+.bss.player     0x0000000000800132        0x1
+ .bss.player    0x0000000000800132        0x1 main.o
+                0x0000000000800132                player
+
+.bss.gameMode   0x0000000000800133        0x1
+ .bss.gameMode  0x0000000000800133        0x1 main.o
+                0x0000000000800133                gameMode
+
+.bss.numero     0x0000000000800136        0x1
+ .bss.numero    0x0000000000800136        0x1 main.o
+                0x0000000000800136                numero
+
+.bss.algarismo  0x0000000000800137        0x1
+ .bss.algarismo
+                0x0000000000800137        0x1 main.o
+                0x0000000000800137                algarismo
+
+.progmemx.data  0x00000000000000e8       0x64
  .progmemx.data
-                0x00000000000000ca        0x9 main.o
+                0x00000000000000e8       0x64 main.o
 
-.data.uart_tx_done
-                0x0000000000800109        0x1 load address 0x00000000000000d3
- .data.uart_tx_done
-                0x0000000000800109        0x1 uart_hal.o
-                0x0000000000800109                uart_tx_done
+.progmemx.data  0x000000000000014c        0x9
+ .progmemx.data
+                0x000000000000014c        0x9 Nextion.o
 
-.text.avrlibc   0x00000000000000d4      0x448
- .text.avrlibc  0x00000000000000d4      0x448 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(vfprintf_std.o)
-                0x00000000000000d4                vfprintf
+.data.control.2294
+                0x0000000000800131        0x1 load address 0x0000000000000155
+ .data.control.2294
+                0x0000000000800131        0x1 main.o
+
+.text.readKeyboard
+                0x0000000000000156      0x48e
+ .text.readKeyboard
+                0x0000000000000156      0x48e main.o
+                0x0000000000000156                readKeyboard
+
+.text.avrlibc   0x00000000000005e4      0x448
+ .text.avrlibc  0x00000000000005e4      0x448 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(vfprintf_std.o)
+                0x00000000000005e4                vfprintf
+
+.text.gameRun   0x0000000000000a2c      0x1f6
+ .text.gameRun  0x0000000000000a2c      0x1f6 main.o
+                0x0000000000000a2c                gameRun
+
+.text.menu      0x0000000000000c22      0x10e
+ .text.menu     0x0000000000000c22      0x10e main.o
+                0x0000000000000c22                menu
+
+.text.waitPlayers
+                0x0000000000000d30       0xda
+ .text.waitPlayers
+                0x0000000000000d30       0xda main.o
+                0x0000000000000d30                waitPlayers
 
 .text.Nextion_sendString
-                0x000000000000051c       0xbe
+                0x0000000000000e0a       0xbe
  .text.Nextion_sendString
-                0x000000000000051c       0xbe main.o
-                0x000000000000051c                Nextion_sendString
+                0x0000000000000e0a       0xbe Nextion.o
+                0x0000000000000e0a                Nextion_sendString
 
-.text.avrlibc   0x00000000000005da       0xbc
- .text.avrlibc  0x00000000000005da       0xbc c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(ultoa_invert.o)
-                0x00000000000005da                __ultoa_invert
+.text.avrlibc   0x0000000000000ec8       0xbc
+ .text.avrlibc  0x0000000000000ec8       0xbc c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(ultoa_invert.o)
+                0x0000000000000ec8                __ultoa_invert
 
-.text.avrlibc   0x0000000000000696       0x78
- .text.avrlibc  0x0000000000000696       0x78 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(fputc.o)
-                0x0000000000000696                fputc
+.text.startGame
+                0x0000000000000f84       0xb2
+ .text.startGame
+                0x0000000000000f84       0xb2 main.o
+                0x0000000000000f84                startGame
+
+.text.main      0x0000000000001036       0xac
+ .text.main     0x0000000000001036       0xac main.o
+                0x0000000000001036                main
+
+.text.store     0x00000000000010e2       0x88
+ .text.store    0x00000000000010e2       0x88 main.o
+                0x00000000000010e2                store
+
+.text.avrlibc   0x000000000000116a       0x78
+ .text.avrlibc  0x000000000000116a       0x78 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(fputc.o)
+                0x000000000000116a                fputc
 
 .text.Nextion_sendInt
-                0x000000000000070e       0x68
+                0x00000000000011e2       0x68
  .text.Nextion_sendInt
-                0x000000000000070e       0x68 main.o
-                0x000000000000070e                Nextion_sendInt
+                0x00000000000011e2       0x68 Nextion.o
+                0x00000000000011e2                Nextion_sendInt
 
 .text.__vector_11
-                0x0000000000000776       0x64
+                0x000000000000124a       0x58
  .text.__vector_11
-                0x0000000000000776       0x64 main.o
-                0x0000000000000776                __vector_11
+                0x000000000000124a       0x58 main.o
+                0x000000000000124a                __vector_11
 
-.text.main      0x00000000000007da       0x46
- .text.main     0x00000000000007da       0x46 main.o
-                0x00000000000007da                main
+.text.clearNumbers
+                0x00000000000012a2       0x46
+ .text.clearNumbers
+                0x00000000000012a2       0x46 main.o
+                0x00000000000012a2                clearNumbers
 
-.text.avrlibc   0x0000000000000820       0x46
- .text.avrlibc  0x0000000000000820       0x46 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(sprintf.o)
-                0x0000000000000820                sprintf
-
-.text.libgcc.prologue
-                0x0000000000000866       0x38
- .text.libgcc.prologue
-                0x0000000000000866       0x38 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_prologue.o)
-                0x0000000000000866                __prologue_saves__
-
-.text.avrlibc   0x000000000000089e       0x36
- .text.avrlibc  0x000000000000089e       0x36 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strnlen_M.o)
-                0x000000000000089e                strnlen
+.text.avrlibc   0x00000000000012e8       0x46
+ .text.avrlibc  0x00000000000012e8       0x46 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(sprintf.o)
+                0x00000000000012e8                sprintf
 
 .text.libgcc.prologue
-                0x00000000000008d4       0x36
+                0x000000000000132e       0x38
  .text.libgcc.prologue
-                0x00000000000008d4       0x36 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_epilogue.o)
-                0x00000000000008d4                __epilogue_restores__
+                0x000000000000132e       0x38 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_prologue.o)
+                0x000000000000132e                __prologue_saves__
 
-.text.avrlibc   0x000000000000090a       0x2e
- .text.avrlibc  0x000000000000090a       0x2e c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strcat_M.o)
-                0x000000000000090a                strcat
+.text.avrlibc   0x0000000000001366       0x36
+ .text.avrlibc  0x0000000000001366       0x36 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strnlen_M.o)
+                0x0000000000001366                strnlen
+
+.text.libgcc.prologue
+                0x000000000000139c       0x36
+ .text.libgcc.prologue
+                0x000000000000139c       0x36 c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_epilogue.o)
+                0x000000000000139c                __epilogue_restores__
+
+.text.avrlibc   0x00000000000013d2       0x2e
+ .text.avrlibc  0x00000000000013d2       0x2e c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strcat_M.o)
+                0x00000000000013d2                strcat
 
 .text.USART_SendString
-                0x0000000000000938       0x2c
+                0x0000000000001400       0x2c
  .text.USART_SendString
-                0x0000000000000938       0x2c uart_hal.o
-                0x0000000000000938                USART_SendString
+                0x0000000000001400       0x2c uart_hal.o
+                0x0000000000001400                USART_SendString
 
 .text.__vector_20
-                0x0000000000000964       0x1e
+                0x000000000000142c       0x1e
  .text.__vector_20
-                0x0000000000000964       0x1e uart_hal.o
-                0x0000000000000964                __vector_20
+                0x000000000000142c       0x1e uart_hal.o
+                0x000000000000142c                __vector_20
 
-.text.avrlibc   0x0000000000000982       0x1e
- .text.avrlibc  0x0000000000000982       0x1e c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strcpy_M.o)
-                0x0000000000000982                strcpy
+.text.avrlibc   0x000000000000144a       0x1e
+ .text.avrlibc  0x000000000000144a       0x1e c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/../../../../avr/lib/avr5/memx-const\libc.a(strcpy_M.o)
+                0x000000000000144a                strcpy
 
 .text.USART_Transmit
-                0x00000000000009a0       0x1a
+                0x0000000000001468       0x1a
  .text.USART_Transmit
-                0x00000000000009a0       0x1a uart_hal.o
-                0x00000000000009a0                USART_Transmit
+                0x0000000000001468       0x1a uart_hal.o
+                0x0000000000001468                USART_Transmit
 
-.text.libgcc    0x00000000000009ba       0x1a
- .text.libgcc   0x00000000000009ba       0x1a c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_movmemx.o)
-                0x00000000000009ba                __movmemx_qi
-                0x00000000000009bc                __movmemx_hi
+.text.libgcc    0x0000000000001482       0x1a
+ .text.libgcc   0x0000000000001482       0x1a c:/program files/microchip/xc8/v2.31/avr/bin/../lib/gcc/avr/5.4.0/avr5/memx-const\libgcc.a(_movmemx.o)
+                0x0000000000001482                __movmemx_qi
+                0x0000000000001484                __movmemx_hi
 
 .text.USART_Init
-                0x00000000000009d4       0x16
+                0x000000000000149c       0x16
  .text.USART_Init
-                0x00000000000009d4       0x16 uart_hal.o
-                0x00000000000009d4                USART_Init
+                0x000000000000149c       0x16 uart_hal.o
+                0x000000000000149c                USART_Init
 
-.text           0x00000000000009ea        0x4
- .text          0x00000000000009ea        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
-                0x00000000000009ea                __vector_22
-                0x00000000000009ea                __vector_1
-                0x00000000000009ea                __vector_24
-                0x00000000000009ea                __vector_12
-                0x00000000000009ea                __bad_interrupt
-                0x00000000000009ea                __vector_6
-                0x00000000000009ea                __vector_3
-                0x00000000000009ea                __vector_23
-                0x00000000000009ea                __vector_25
-                0x00000000000009ea                __vector_13
-                0x00000000000009ea                __vector_17
-                0x00000000000009ea                __vector_19
-                0x00000000000009ea                __vector_7
-                0x00000000000009ea                __vector_5
-                0x00000000000009ea                __vector_4
-                0x00000000000009ea                __vector_9
-                0x00000000000009ea                __vector_2
-                0x00000000000009ea                __vector_21
-                0x00000000000009ea                __vector_15
-                0x00000000000009ea                __vector_8
-                0x00000000000009ea                __vector_14
-                0x00000000000009ea                __vector_10
-                0x00000000000009ea                __vector_16
-                0x00000000000009ea                __vector_18
+.text           0x00000000000014b2        0x4
+ .text          0x00000000000014b2        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.6.364/xc8/avr/lib/avr5/memx-const/crtatmega328p.o
+                0x00000000000014b2                __vector_22
+                0x00000000000014b2                __vector_1
+                0x00000000000014b2                __vector_24
+                0x00000000000014b2                __vector_12
+                0x00000000000014b2                __bad_interrupt
+                0x00000000000014b2                __vector_6
+                0x00000000000014b2                __vector_3
+                0x00000000000014b2                __vector_23
+                0x00000000000014b2                __vector_25
+                0x00000000000014b2                __vector_13
+                0x00000000000014b2                __vector_17
+                0x00000000000014b2                __vector_19
+                0x00000000000014b2                __vector_7
+                0x00000000000014b2                __vector_5
+                0x00000000000014b2                __vector_4
+                0x00000000000014b2                __vector_9
+                0x00000000000014b2                __vector_2
+                0x00000000000014b2                __vector_21
+                0x00000000000014b2                __vector_15
+                0x00000000000014b2                __vector_8
+                0x00000000000014b2                __vector_14
+                0x00000000000014b2                __vector_10
+                0x00000000000014b2                __vector_16
+                0x00000000000014b2                __vector_18
 
-.data.endLine   0x0000000000800100        0x4 load address 0x00000000000009ee
- .data.endLine  0x0000000000800100        0x4 main.o
-                0x0000000000800100                endLine
+.data.idCompC   0x0000000000800100        0x4 load address 0x00000000000014b6
+ .data.idCompC  0x0000000000800100        0x4 main.o
+                0x0000000000800100                idCompC
 
-.data.id_t0     0x0000000000800104        0x3 load address 0x00000000000009f2
- .data.id_t0    0x0000000000800104        0x3 main.o
-                0x0000000000800104                id_t0
+.data.endLine   0x0000000000800104        0x4 load address 0x00000000000014ba
+ .data.endLine  0x0000000000800104        0x4 Nextion.o
+                0x0000000000800104                endLine
 
-.data.val       0x0000000000800107        0x2 load address 0x00000000000009f5
- .data.val      0x0000000000800107        0x2 main.o
-                0x0000000000800107                val
+.data.idCompB   0x0000000000800108        0x3 load address 0x00000000000014be
+ .data.idCompB  0x0000000000800108        0x3 main.o
+                0x0000000000800108                idCompB
+
+.data.idRespostaC
+                0x000000000080010b        0x3 load address 0x00000000000014c1
+ .data.idRespostaC
+                0x000000000080010b        0x3 main.o
+                0x000000000080010b                idRespostaC
+
+.data.idSenhaC  0x000000000080010e        0x3 load address 0x00000000000014c4
+ .data.idSenhaC
+                0x000000000080010e        0x3 main.o
+                0x000000000080010e                idSenhaC
+
+.data.idRespostaB
+                0x0000000000800111        0x3 load address 0x00000000000014c7
+ .data.idRespostaB
+                0x0000000000800111        0x3 main.o
+                0x0000000000800111                idRespostaB
+
+.data.idSenhaB  0x0000000000800114        0x3 load address 0x00000000000014ca
+ .data.idSenhaB
+                0x0000000000800114        0x3 main.o
+                0x0000000000800114                idSenhaB
+
+.data.idTituloC
+                0x0000000000800117        0x3 load address 0x00000000000014cd
+ .data.idTituloC
+                0x0000000000800117        0x3 main.o
+                0x0000000000800117                idTituloC
+
+.data.idTituloB
+                0x000000000080011a        0x3 load address 0x00000000000014d0
+ .data.idTituloB
+                0x000000000080011a        0x3 main.o
+                0x000000000080011a                idTituloB
+
+.data.senhaC    0x0000000000800134        0x1 load address 0x00000000000014d3
+ .data.senhaC   0x0000000000800134        0x1 main.o
+                0x0000000000800134                senhaC
+
+.data.senhaB    0x0000000000800135        0x1 load address 0x00000000000014d4
+ .data.senhaB   0x0000000000800135        0x1 main.o
+                0x0000000000800135                senhaB
+
+.data.uart_tx_done
+                0x0000000000800138        0x1 load address 0x00000000000014d5
+ .data.uart_tx_done
+                0x0000000000800138        0x1 uart_hal.o
+                0x0000000000800138                uart_tx_done

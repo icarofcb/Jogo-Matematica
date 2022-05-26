@@ -6,5 +6,7 @@ analog_hal.c
 
 main.c
 
+Nextion.c
+
 uart_hal.c
 

@@ -39,4 +39,5 @@ void USART_Transmit(unsigned char data);
 void USART_SendString(unsigned char *data);
 void USART_SendInt(int16_t value);
 
+
 #endif /* UART_HAL_H_ */
