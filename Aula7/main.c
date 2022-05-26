@@ -22,6 +22,7 @@
 #include <avr/interrupt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <string.h>
 #include <avr/interrupt.h>
 
@@ -43,6 +44,8 @@
 #define col_2  PORTD3 //D3
 #define col_1  PORTD2 //D2
 
+#define buzzer PORTC6 //buzzer A6
+
 //===================// Function defines //===================//
 
 #define set_bit(reg,bit)    (reg |= (1<<bit))   // define bit   "DDRx/PORTx,PORTxn"
@@ -54,10 +57,10 @@
 void readKeyboard();
 void store(char value);
 void startGame();
-void waitPlayers();
 void gameRun();
 void clearNumbers(char player);
 void menu();
+
 
 //===================// Variable Mapping //===================//
 const uint16_t T1_init = 0;       // zero for the start point of the timer;
@@ -79,31 +82,38 @@ char idCompC[] = "t10";
 
 volatile char algarismo  = 0x00;                  //variável para armazenar o número pressionado no teclado
 volatile char numero     = 0x00;
+static volatile char digito  = 0;
 
-uint8_t senhaB = 32,
-		senhaC = 46,
+uint8_t senhaB = 0,
+		senhaC = 0,
 		RespB  = 0,
 		RespC  = 0;
 
 uint8_t gameMode = 0x00,
 		player = 0;
 
+uint8_t timer;
+
+
 //===================// Timer function //===================//
 ISR(TIMER1_COMPA_vect)
 {
 	readKeyboard();
 	
-	invert_bit(PORTB,D13);
+	timer++;
 	
 	TCNT1 = T1_init;                      //resets TIMER1	
 }
 
 //===================// Main Code //===================//
 int main(void)
-{
-
+{		
+		
+		
  	    //========== GPIO =========//
- 	    set_bit(DDRB,D13);   
+ 	    set_bit(DDRB,D13);  
+		set_bit(DDRC,buzzer);
+		 
 		set_bit(DDRD,col_1);
 		set_bit(DDRD,col_2);
 		set_bit(DDRD,col_3);
@@ -142,7 +152,6 @@ int main(void)
 		//========== UART =========//	
 		USART_Init(MYUBRR);
 		
-		
 		menu();
 		
 		
@@ -150,15 +159,7 @@ int main(void)
 	{
 		if(gameMode==0x00)
 		{
-			if(algarismo==0x00)
-			{
-				startGame();
-			
-			}else if((algarismo!=0)){
-		
-				waitPlayers();	
-			}
-			
+			startGame();
 		}else gameRun();
 	}
 }
@@ -378,7 +379,7 @@ void readKeyboard()
 void store(char value)                   
 {   
 	TIMSK1 = 0;                          
-	static volatile char digito  = 0;
+	
 	
 	algarismo = value;
 	
@@ -402,10 +403,15 @@ void store(char value)
 		if(!player)
 		{
 			Nextion_sendInt(idRespostaB,numero);	
-		}else Nextion_sendInt(idRespostaC,numero);
+		}else{
+			Nextion_sendInt(idRespostaC,numero);
+		}
 	}
-	_delay_ms(250);
 	                       
+	set_bit(PORTB,D13);
+	_delay_ms(100);
+	reset_bit(PORTB,D13);
+	
 	
 	TIMSK1 = (1 << OCIE1A);
 	
@@ -413,6 +419,8 @@ void store(char value)
 
 void menu()
 {
+	srand(timer);
+	
 	char msg1[] = "Senha B";
 	char msg2[] = "Senha C";
 	char msg3[] = "t7.pw=1";
@@ -438,27 +446,20 @@ void menu()
 	gameMode  = 0;
 	numero    = 0;
 	algarismo = 0;
-		
+	
+	senhaB = (char)rand()%99;
+	senhaB += senhaB<10? 10:0;
+	senhaC = (char)rand()%99;
+	senhaC += senhaC<10? 10:0;	
 }
 void startGame()
 {
 	char msg1[]  = "Pressione tecla B";
 	char msg2[]  = "Pressione tecla C";
+	char msg3[]  = "Player B pronto";
+	char msg4[]  = "Player C pronto";
+	
 	char clear[] = " ";
-	
-	Nextion_sendString(idRespostaB,msg1);
-	Nextion_sendString(idRespostaC,msg2);
-	_delay_ms(300);
-	Nextion_sendString(idRespostaB,clear);
-	Nextion_sendString(idRespostaC,clear);
-	_delay_ms(300);
-	
-}
-
-void waitPlayers()
-{
-	char msg1[] = "Player B pronto";
-	char msg2[] = "Player C pronto";
 	
 	static uint8_t pB_ready = 0,
 				   pC_ready = 0;
@@ -466,23 +467,42 @@ void waitPlayers()
 	if(algarismo==14 && !pB_ready)
 	{
 		pB_ready = 1;
-		Nextion_sendString(idRespostaB,msg1);
+		Nextion_sendString(idRespostaB,msg3);
 	}
+	
 	if(algarismo==15 && !pC_ready)
 	{
 		pC_ready = 1;
-		Nextion_sendString(idRespostaC,msg2);
+		Nextion_sendString(idRespostaC,msg4);
 	}
-		
+	
 	if(pB_ready && pC_ready)
 	{
+		srand(timer);
+		
 		Nextion_sendInt(idSenhaB,senhaB);
 		Nextion_sendInt(idSenhaC,senhaC);
+		Nextion_sendInt(idRespostaB,0);
+		Nextion_sendInt(idRespostaC,0);
 		
 		gameMode = 0x01;
 	}
 
-	_delay_ms(50);
+	
+	if(!pB_ready)
+	{
+		Nextion_sendString(idRespostaB,clear);
+		_delay_ms(150);
+		Nextion_sendString(idRespostaB,msg1);
+	}
+	
+	if(!pC_ready)
+	{
+		Nextion_sendString(idRespostaC,msg2);
+		_delay_ms(150);
+		Nextion_sendString(idRespostaC,clear);
+		
+	}
 }
 
 void gameRun()
@@ -512,8 +532,9 @@ void gameRun()
 			
 			if(numero<senhaB)       {Nextion_sendString(idCompB,menor); player = 1; clearNumbers(player);}
 			else if(numero>senhaB)  {Nextion_sendString(idCompB,maior); player = 1; clearNumbers(player);} 
-			else if(numero==senhaB) {Nextion_sendString(idCompB,igual); player = 1; clearNumbers(player); _delay_ms(10000); menu();} // Tirar clear number e colcoar sequencia de vitoria
+			else if(numero==senhaB) {Nextion_sendString(idCompB,igual); player = 1; clearNumbers(player); _delay_ms(10000); menu();} 
 			_delay_ms(50);
+			digito = 0;
 			TIMSK1 = (1 << OCIE1A);
 		}
 		//Nextion_sendInt(idRespostaB,numero);
@@ -528,8 +549,8 @@ void gameRun()
 			
 			if(numero<senhaC)       {Nextion_sendString(idCompC,menor); player = 0; clearNumbers(player);}
 			else if(numero>senhaC)  {Nextion_sendString(idCompC,maior); player = 0; clearNumbers(player);}
-			else if(numero==senhaC) {Nextion_sendString(idCompC,igual); player = 0; clearNumbers(player); _delay_ms(10000); menu();} // Tirar clear number e colcoar sequencia de vitoria
-			
+			else if(numero==senhaC) {Nextion_sendString(idCompC,igual); player = 0; clearNumbers(player); _delay_ms(10000); menu();}
+			digito = 0;
 			_delay_ms(50);
 			TIMSK1 = (1 << OCIE1A);
 		}
@@ -561,3 +582,4 @@ void clearNumbers(char player)
 	}else Nextion_sendString(idRespostaC,nada);
 	
 }
+

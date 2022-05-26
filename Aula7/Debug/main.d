@@ -17,6 +17,7 @@ main.d main.o: .././main.c \
  c:\program\ files\microchip\xc8\v2.31\avr\lib\gcc\avr\5.4.0\include\stdarg.h \
  c:\program\ files\microchip\xc8\v2.31\avr\lib\gcc\avr\5.4.0\include\stddef.h \
  c:\program\ files\microchip\xc8\v2.31\avr\avr\include\stdlib.h \
+ c:\program\ files\microchip\xc8\v2.31\avr\avr\include\time.h \
  c:\program\ files\microchip\xc8\v2.31\avr\avr\include\string.h \
  .././uart_hal.h \
  c:\program\ files\microchip\xc8\v2.31\avr\avr\include\util\atomic.h \
@@ -60,6 +61,8 @@ c:\program\ files\microchip\xc8\v2.31\avr\lib\gcc\avr\5.4.0\include\stdarg.h:
 c:\program\ files\microchip\xc8\v2.31\avr\lib\gcc\avr\5.4.0\include\stddef.h:
 
 c:\program\ files\microchip\xc8\v2.31\avr\avr\include\stdlib.h:
+
+c:\program\ files\microchip\xc8\v2.31\avr\avr\include\time.h:
 
 c:\program\ files\microchip\xc8\v2.31\avr\avr\include\string.h:
 
